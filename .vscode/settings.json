@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "stdlib.h": "c",
+        "stdio.h": "c",
+        "conio.h": "c",
+        "corecrt_wconio.h": "c"
+    }
+}
