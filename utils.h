@@ -11,11 +11,12 @@
 #include "client.h"
 
 
-void infoGuitarra(guitar *new, int *TAM, int *ids);
-guitar * novaGuitarra(guitar *arr, int *TAM, int *ids);
+void infoGuitarra(guitar *new, int *TAM);
+guitar * novaGuitarra(guitar *arr, int *TAM, int vaiLer);
 void sair();
 int ecra_principal();
 void listarGuitarra(guitar *arr, int tam);
-guitar * leTXT(guitar *arr, int *tam, int *ids);
+void listarGuitarraAlugada(guitar *arr, int tam);
+guitar * leTXT(int *tam);
 
 #endif

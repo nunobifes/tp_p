@@ -1,19 +1,6 @@
 #include "utils.h"
 
-void infoGuitarra(guitar *new, int *TAM, int *ids){
-    //clrscr();
-    system("cls");
-    
-    printf(" |--------------Adicionar Guitarra------------|\n\n");
-    new[(*TAM) -1].id = ++(*ids);
-    printf("Nome: ");
-    scanf(" %49[^\n]", &new[(*TAM) -1].nome);
-    new[(*TAM) -1].estado = 0;
-    printf("Valor: ");
-    scanf("%d", &new[(*TAM) -1].valor);
-    printf("Preco: ");
-    scanf("%d", &new[(*TAM) -1].pdia);
-}
+
     
 void listarGuitarra(guitar *arr, int tam){
     system("cls");
@@ -24,10 +11,10 @@ void listarGuitarra(guitar *arr, int tam){
         else
             for(int i = 0; i < tam; i++){
                 printf("\tID: %d", arr[i].id);
-                printf("\tNome: %s", arr[i].nome);
                 printf("\tEstado: %d", arr[i].estado);
                 printf("\tValor: %d", arr[i].valor);
                 printf("\tPreco por dia: %d", arr[i].pdia);
+                printf("\tNome: %s", arr[i].nome);
                 printf("\n");
             }
         
@@ -36,67 +23,128 @@ void listarGuitarra(guitar *arr, int tam){
 
 }
 
-guitar * novaGuitarra(guitar *arr, int *TAM, int *ids){
+void listarGuitarraAlugada(guitar *arr, int tam){
+    system("cls");
+        int flag;
+        printf(" |--------------Listar Guitarras Alugadas--------------|\n\n");
+        for(int i = 0; i < tam; i++){
+                if(arr[i].estado != 1){
+                    flag=1;
+                }
+                else{
+                    flag = 0;
+                    break;
+                }
+        }
+
+        if(flag == 1)
+            printf("\tNao ha guitarras alugadas");
+        else{
+            for(int i = 0; i < tam; i++){
+                if(arr[i].estado == 1){
+                    printf("\tID: %d", arr[i].id);
+                    printf("\tEstado: %d", arr[i].estado);
+                    printf("\tValor: %d", arr[i].valor);
+                    printf("\tPreco por dia: %d", arr[i].pdia);
+                    printf("\tNome: %s", arr[i].nome);
+                    printf("\n");
+                }
+            }
+        }
+        
+        
+    getch();
+
+}
+
+void infoGuitarra(guitar *new, int *tam){
+    //clrscr();
+    system("cls");
+    
+    printf(" |--------------Adicionar Guitarra------------|\n\n");
+    if(*tam > 1)
+        new[(*tam) - 1].id = new[(*tam) - 2].id + 1;
+    else
+        new[(*tam) - 1].id = 0;
+    new[(*tam) -1].estado = 1;
+    fflush(stdout);
+    printf("Nome: ");
+    scanf(" %49[^\n]", &new[(*tam) -1].nome);
+    printf("Valor: ");
+    scanf("%d", &new[(*tam) -1].valor);
+    printf("Preco: ");
+    scanf("%d", &new[(*tam) -1].pdia);
+}
+
+guitar * novaGuitarra(guitar *arr, int *TAM, int vaiLer){
     guitar *new = arr;
 
     new = (guitar *) realloc(new, sizeof(guitar) * ((*TAM)+1));
     
     if(!new){
         return arr;
+    }else if(vaiLer == 0){
+        (*TAM)++;
+        infoGuitarra(new, TAM);
+    }else{
+        (*TAM)++;
+        return new;
     }
-    (*TAM)++;
-    infoGuitarra(new, TAM, ids);
-
+    
     return new;
 }
 
-guitar * leTXT(guitar *arr, int *tam, int *ids){
+guitar * leTXT(int *tam){
     FILE *f;
-    
-    f = fopen("guitarras.txt", "r");
-    if(f==NULL){
+    guitar *aux = NULL;
+    int id, est, val, pre, i;
+    char nom[50];
+
+    f = fopen("guitarras.txt", "rt");
+    if(!f){
         printf("Erro no acesso ao ficheiro\n");
-        return arr;
+        return aux;
     }
-    guitar *new = arr;
-    fseek(f, 0, SEEK_END); // seek to end of file
-    size_t size = ftell(f); // get current file pointer
-    fseek(f, 0, SEEK_SET); // seek back to beginning of file
-    // proceed with allocating memory and reading the file
-    int ch=0;
-    int lines=0;
-    lines++;
-    while(!feof(f))
-    {
-        ch = fgetc(f);
-        if(ch == '\n')
-            lines++;
-    }
-
-
-    if(size > 0){
-
-       for((*tam) = 0; (*tam) < lines; (*tam)++){
-            new = (guitar *) realloc(new, sizeof(guitar) * ((*tam)+1));
     
-        
-            if(!new){
-                return arr;
-            }
+    while(true){
+        int ler = fscanf(f, "%d %d %d %d %[^\n]", &id, &est, &val, &pre, nom);
+
+        if(ler == 5){
+
+            aux = novaGuitarra(aux, tam, 1);
+
+            if(!aux)
+                return NULL;
             
-            fscanf(f, "%d %[^ ] %d %d %d", &new[(*tam)].id+1, new[(*tam)].nome, &new[(*tam)].estado, &new[(*tam)].valor, &new[(*tam)].pdia);
+            i = (*tam) - 1;
+
+            aux[i].id = id;
+            aux[i].estado = est;
+            aux[i].valor = val;
+            aux[i].pdia = pre;
+            strcpy(aux[i].nome, nom);
         }
-        (*ids)=new[(*tam)].id+1;
+        else if(ler == EOF){
+            break;
+        }
     }
-    else{ 
-        fclose(f);
-        return arr;
-    }
+
     fclose(f);
-    return new;
+    return aux;
 }
 
 
+void guarda_dados_txt(guitar *arr, int tam)
+{
+    int i;
+    FILE *f;
+    f = fopen("guitarras.txt", "w");
+    if(f==NULL)
+        return;
+    for(i=0; i<tam; i++)
+        fprintf(f, "%d %d %d %d %s\n", arr[i].id, arr[i].estado, arr[i].valor, arr[i].pdia, arr[i].nome);
+    fclose(f);
+}
 
 
 int ecra_principal(){
@@ -113,7 +161,7 @@ int ecra_principal(){
             printf("\t\t 4-|--------------Adicionar Guitarra------------|\n");
             printf("\t\t 5-|---Historico de Alugueres de uma Guitarra---|\n");
             printf("\t\t 6-|--------------Listar Guitarras--------------|\n");
-            printf("\t\t 7-|-----------listar guitarras alugadas--------|\n");
+            printf("\t\t 7-|-----------Listar Guitarras Alugadas--------|\n");
             printf("\t |----Clientes---|\n");
             printf("\t\t 08-|--------Adicionar Cliente------|\n");
             printf("\t\t 09-|------Estado de um Cliente-----|\n");
@@ -127,28 +175,6 @@ int ecra_principal(){
         
         return input;
 }
-
-void escreve_info_txt(guitar a, FILE *f, int i, int tam)
-{
-    if(i+1 == tam)
-        fprintf(f, "%d %s %d %d %d", a.id, a.nome, a.estado, a.valor, a.pdia);
-    else
-        fprintf(f, "%d %s %d %d %d\n", a.id, a.nome, a.estado, a.valor, a.pdia);    
-}
-
-void guarda_dados_txt(guitar *arr, int tam)
-{
-    int i;
-    FILE *f;
-    f = fopen("guitarras.txt", "w");
-    if(f==NULL)
-        return;
-    for(i=0; i<tam; i++)
-        escreve_info_txt(arr[i], f, i, tam);
-    fclose(f);
-}
-
-
 
 
 void sair(guitar *arr, int tam){
