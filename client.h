@@ -3,9 +3,9 @@
 
 #include "utils.h"
 
-typedef struct cliente cli, *pCli;
-typedef struct aluguer alu, *pAlu;
-typedef struct date DATA;
+typedef struct cliente cliente, *pCliente;
+typedef struct aluguer aluguer, *pAluguer;
+typedef struct date data;
 
 struct date{
     int dia, mes, ano;
@@ -15,16 +15,17 @@ struct cliente{
     int NIF;
     char nome[100];
     bool banido;
-    pCli prox;
-    pAlu list;
+    int nGuitarras;
+    pCliente prox;
+    pAluguer alug;
 };
 
 struct aluguer{
     guitar *gui;
-    DATA inicio;
-    DATA fimPrev;
-    DATA fim;
-    pAlu prox;
+    data inicio;
+    data fimPrev;
+    data fim;
+    pAluguer prox;
 
 };
 
