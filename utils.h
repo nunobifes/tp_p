@@ -1,5 +1,8 @@
+#pragma once
 #ifndef UTI_H
 #define UTI_H
+
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,6 +15,7 @@
 
 // Alugueres
 void novoAlug(pCliente p, guitar *g, int *tam, int *NIF);
+void terminarAluguer(pCliente p, int *NIF);
 
 // Guitarras
 void infoGuitarra(guitar *new, int *TAM);
@@ -22,12 +26,13 @@ void listarGuitarraAlugada(guitar *arr, int tam);
 
 // Clientes
 pCliente novoCli(pCliente p);
+pCliente leClientes(guitar *g, int *tam);
 void listaClientes(pCliente p);
 void listaCliBan(pCliente p);
 void listaEstadoCliente(pCliente p, int NIF);
 
 // Misc
-void sair(guitar *arr, pCliente list,int tam);
+void sair(guitar *arr, pCliente list, int tam);
 int ecra_principal();
 int obtemNIF(pCliente p);
 

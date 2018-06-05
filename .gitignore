@@ -1,4 +1,5 @@
 *.obj
 *.exe
 *.txt
+*.dat
 .vscode/

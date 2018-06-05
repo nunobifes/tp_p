@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CLI_H
 #define CLI_H
 
@@ -7,26 +8,27 @@ typedef struct cliente cliente, *pCliente;
 typedef struct aluguer aluguer, *pAluguer;
 typedef struct date data;
 
-struct date{
-    int dia, mes, ano;
+struct date {
+	int dia, mes, ano;
 };
 
-struct cliente{
-    int NIF;
-    char nome[100];
-    bool banido;
-    int nGuitarras;
-    pCliente prox;
-    pAluguer alug;
+struct cliente {
+	int NIF;
+	char nome[100];
+	bool banido;
+	int nGuitDan;
+	int nGuitarras;
+	pCliente prox;
+	pAluguer alug;
 };
 
-struct aluguer{
-    guitar *gui;
-    data inicio;
-    data fimPrev;
-    data fim;
-    pAluguer prox;
-
+struct aluguer {
+	guitar *gui;
+	data inicio;
+	data fimPrev;
+	data fim;
+	pAluguer prox;
+	int estado;
 };
 
 
