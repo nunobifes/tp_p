@@ -48,7 +48,7 @@ void infoAluguer(pAluguer new, guitar *g, int *tam) {
 	new->estado = 0;
 	new->prox = NULL;
 
-	_getch();
+	getchar();
 
 }
 
@@ -97,7 +97,7 @@ void terminarAluguer(pCliente p, int *NIF) {
 	if(i == NULL)
 	{
 		printf("Esse cliente nao tem alugueres por entregar.");
-		_getch();
+		getchar();
 		return;
 	}
 	else

@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <conio.h>
+
 #include <stdbool.h>
 
 #include "guitar.h"
@@ -28,12 +28,14 @@ void GuitarraAluguer(guitar *member);
 // Clientes
 pCliente novoCli(pCliente p);
 pCliente leClientes(guitar *g, int *tam);
+pCliente leClientesBanidos(pCliente p);
 void listaClientes(pCliente p);
 void listaCliBan(pCliente p);
 void listaEstadoCliente(pCliente p, int NIF);
 int obtemNIF(pCliente p);
 int verNIF(pCliente pointer, pCliente new);
 void infoCliente(pCliente new);
+void libertaCli(pCliente p);
 
 // Misc
 void sair(guitar *arr, pCliente list, int tam);
@@ -47,5 +49,6 @@ int datecmp(data d1, data *d2);
 int isleap(int ano);
 int data2dia(data *d);
 int calculaDif(data *dataI, data *dataP);
+void guardaBanidos(pCliente p);
 
 #endif

@@ -4,6 +4,7 @@ int main() {
 	int tam = 0;
 	guitar *gui = leTXT(&tam);
 	pCliente list = leClientes(gui, &tam);
+	list = leClientesBanidos(list);
 	//pCliente list = NULL;
 	int opcao, NIF;
 

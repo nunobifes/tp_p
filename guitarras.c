@@ -17,7 +17,7 @@ void listarGuitarra(guitar *arr, int tam) {
 		}
 
 
-	_getch();
+	getchar();
 
 }
 
@@ -51,7 +51,7 @@ void listarGuitarraAlugada(guitar *arr, int tam) {
 	}
 
 
-	_getch();
+	getchar();
 
 }
 
@@ -136,5 +136,5 @@ guitar * leTXT(int *tam) {
 
 void GuitarraAluguer(guitar *member) {
 	printf("\nNome: %s\nValor: %d euros\nPreco dia: %d euros\n", member->nome, member->valor, member->pdia);
-	_getch();
+	getchar();
 }

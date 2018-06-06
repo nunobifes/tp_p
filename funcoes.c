@@ -9,32 +9,23 @@ void mostraGuit(guitar *m) {
 	printf("\tNome: %s", m->nome);
 	printf("\n");
 
-	_getch();
+	getchar();
 
 }
 
 void guardaClientes(pCliente p)
 {
-	FILE *cInfo, *bInfo;
+	FILE *cInfo;
 	pAluguer i = NULL;
 	int total = 0;
 
 	cInfo = fopen("clientes.txt", "wt");
 	if (!cInfo)
 		return;
-	bInfo = fopen("banidos.dat", "wb");
-	if (!bInfo)
-		return;
 
 	while(p != NULL)
 	{
-		if(p->banido == true)
-		{
-			fwrite(p, sizeof(cliente), 1, bInfo);
-			p = (pCliente)p->prox;
-			total++;
-		}
-		else
+		if(!p->banido)
 		{
 			fprintf(cInfo, "%d %d %s\n", (int)p->NIF, (int)p->nGuitarras, p->nome);
 
@@ -48,9 +39,31 @@ void guardaClientes(pCliente p)
 			p = (pCliente)p->prox;
 		}
 	}
-	fwrite(&total, sizeof(int), 1, bInfo);
 
 	fclose(cInfo);
+
+}
+
+void guardaBanidos(pCliente p)
+{
+	FILE *bInfo;
+	int total = 0;
+
+	bInfo = fopen("banidos.dat", "wb");
+
+	if (!bInfo)
+		return;
+
+	while(p != NULL)
+	{
+		if(p->banido)
+		{
+			fwrite(p, sizeof(cliente), 1, bInfo);
+			total++;
+		}
+		p = (pCliente)p->prox;
+	}
+	fwrite(&total, sizeof(int), 1, bInfo);
 	fclose(bInfo);
 }
 
@@ -147,8 +160,9 @@ int calculaDif(data *dataI, data *dataP) {
 void sair(guitar *arr, pCliente list, int tam) {
 	guarda_dados_txt(arr, tam);
 	guardaClientes(list);
+	guardaBanidos(list);
 	free(arr);
-	free(list);
+	libertaCli(list);
 	exit(0);
 }
 
