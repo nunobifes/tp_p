@@ -1,8 +1,19 @@
-#pragma once
-#ifndef UTI_H
-#define UTI_H
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
-#define _CRT_SECURE_NO_WARNINGS
+/* 
+ * File:   utils.h
+ * Author: nunob
+ *
+ * Created on 7 de Junho de 2018, 0:55
+ */
+
+#ifndef UTILS_H
+#define UTILS_H
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,12 +21,12 @@
 
 #include <stdbool.h>
 
-#include "guitar.h"
-#include "client.h"
+#include "guitarra.h"
+#include "cliente.h"
 
 // Alugueres
-void novoAlug(pCliente p, guitar *g, int *tam, int *NIF);
-void terminarAluguer(pCliente p, int *NIF);
+void novoAlug(pCliente p, guitar *g, int *tam);
+void terminarAluguer(pCliente p);
 
 // Guitarras
 void infoGuitarra(guitar *new, int *TAM);
@@ -31,7 +42,7 @@ pCliente leClientes(guitar *g, int *tam);
 pCliente leClientesBanidos(pCliente p);
 void listaClientes(pCliente p);
 void listaCliBan(pCliente p);
-void listaEstadoCliente(pCliente p, int NIF);
+void listaEstadoCliente(pCliente p);
 int obtemNIF(pCliente p);
 int verNIF(pCliente pointer, pCliente new);
 void infoCliente(pCliente new);
@@ -50,5 +61,8 @@ int isleap(int ano);
 int data2dia(data *d);
 int calculaDif(data *dataI, data *dataP);
 void guardaBanidos(pCliente p);
+void mostraclie(pCliente p);
 
-#endif
+
+#endif /* UTILS_H */
+
