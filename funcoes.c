@@ -104,16 +104,17 @@ int ecra_principal() {
         printf("\t\t 2-|---Concluir Aluguer---|\n");
         printf("\t\t 3-|----Produzir lista----|\n");
         printf("\t |---Guitarras---|\n");
-        printf("\t\t 4-|--------------Adicionar Guitarra------------|\n");
+        printf("\t\t 4-|-------------Adicionar Guitarra-------------|\n");
         printf("\t\t 5-|---Historico de Alugueres de uma Guitarra---|\n");
         printf("\t\t 6-|--------------Listar Guitarras--------------|\n");
-        printf("\t\t 7-|-----------Listar Guitarras Alugadas--------|\n");
+        printf("\t\t 7-|----------Listar Guitarras Alugadas---------|\n");
         printf("\t |----Clientes---|\n");
-        printf("\t\t 08-|--------Adicionar Cliente------|\n");
-        printf("\t\t 09-|------Estado de um Cliente-----|\n");
-        printf("\t\t 10-|----Listar Clientes Ativos-----|\n");
-        printf("\t\t 11-|----Listar Clientes Banidos----|\n");
-        printf("\t 12-|------Sair-----|\n");
+        printf("\t\t 08-|-------Adicionar Cliente-------|\n");
+        printf("\t\t 09-|--------Remover Cliente--------|\n");
+        printf("\t\t 10-|------Estado de um Cliente-----|\n");
+        printf("\t\t 11-|----Listar Clientes Ativos-----|\n");
+        printf("\t\t 12-|----Listar Clientes Banidos----|\n");
+        printf("\t 13-|------Sair-----|\n");
         
         printf("\n\n\n\n\nOpcao: ");
         status = scanf("%d", &input);

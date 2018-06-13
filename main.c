@@ -57,20 +57,20 @@ int main(int argc, char** argv) {
             list = novoCli(list);
             opcao = 0;
         }
-        else if (opcao == 9) {
+        else if (opcao == 10) {
             
             listaEstadoCliente(list);
             opcao = 0;
         }
-        else if (opcao == 10) {
+        else if (opcao == 11) {
             listaClientes(list);
             opcao = 0;
         }
-        else if (opcao == 11) {
+        else if (opcao == 12) {
             listaCliBan(list);
             opcao = 0;
         }
-        else if (opcao == 12) {
+        else if (opcao == 13) {
             sair(gui, list, tam);
         }
         else {
