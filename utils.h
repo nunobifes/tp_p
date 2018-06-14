@@ -47,6 +47,7 @@ int obtemNIF(pCliente p);
 int verNIF(pCliente pointer, pCliente new);
 void infoCliente(pCliente new);
 void libertaCli(pCliente p);
+pCliente removeCli(pCliente p);
 
 // Misc
 void sair(guitar *arr, pCliente list, int tam);

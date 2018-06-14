@@ -6,30 +6,45 @@
 
 #include "utils.h"
 
-int verNIF(pCliente pointer, pCliente new)
-{
-    pCliente aux = pointer;
+pCliente removeCli(pCliente p){
     
-    while (aux != NULL)
-    {
-        if (new->NIF == aux->NIF)
-            return 1;
+    int flag, NIF;
+    pCliente atua, ante = NULL, aux;
+    
+    aux = atua = p;
+    
+    fflush(stdin);
+    system("cls");
+    printf(" |--------Remover Cliente--------|\n\n");
+    
+    printf("Clientes Ativos: \n\n");
+    
+    
+    while(aux != NULL){
+        if(aux->banido == false)
+            mostraclie(aux);
         aux = (pCliente)aux->prox;
     }
+    printf("\n");
+    NIF = obtemNIF(p);
     
-    return 0;
-}
-
-int obtemNIF(pCliente p) {
     
-    int NIF;
-    if (p == NULL)
-        return 0;
-    else {
-        printf("NIF do Cliente: ");
-        scanf("%9d", &NIF);
-        return NIF;
+    
+    while(atua != NULL && atua->NIF != NIF){
+        ante = atua;
+        atua = (pCliente)atua->prox;
     }
+    if(atua == NULL || atua->banido == true){
+        printf("\nCliente banido ou nao existe.\n");
+        return p;
+    }
+    if(ante == NULL)
+        p = (pCliente)atua->prox;
+    else
+        ante->prox = atua->prox;
+    
+    free(atua);
+     return p;
     
 }
 
@@ -37,7 +52,7 @@ void listaEstadoCliente(pCliente p) {
     fflush(stdin);
     system("cls");
     printf(" |------Estado de um Cliente-----|\n\n");
-    int flag, NIF;
+    int flag = 0, NIF;
     
     NIF = obtemNIF(p);
     
@@ -46,7 +61,6 @@ void listaEstadoCliente(pCliente p) {
             flag = 1;
         }
         else {
-            flag = 0;
             break;
         }
         p = (pCliente)p->prox;
@@ -62,7 +76,7 @@ void listaEstadoCliente(pCliente p) {
     else {
         while (p) {
             if (p->NIF == NIF)
-                printf("\tNome: %s\tNIF: %d\tBanido: %d\n", p->nome, p->NIF, p->banido);
+                printf("\tNome: %s\tNIF: %d\tNumero de guitarras alugadas: %d\n", p->nome, p->NIF, p->nGuitarras);
             p = (pCliente)p->prox;
         }
     }
@@ -71,18 +85,19 @@ void listaEstadoCliente(pCliente p) {
 
 void listaClientes(pCliente p) {
     pAluguer aux;
+    pCliente clie = p;
     fflush(stdin);
     system("cls");
     printf(" |----Listar Clientes Ativos-----|\n\n");
-    if (p == NULL)
+    if (clie == NULL)
         printf("\tNao ha clientes registados");
     else {
-        while (p) {
-            if(p->banido == false){
+        while (clie != NULL) {
+            if(clie->banido == false){
                 
                 printf("\n\tNome: %s\tNIF: %d\tBanido: %d\n", p->nome, p->NIF, p->banido);
                 
-                aux = p->alug;
+                aux = clie->alug;
                 
                 if (aux != NULL) {
                     while (aux != NULL) {
@@ -104,7 +119,7 @@ void listaClientes(pCliente p) {
                     }
                 }
             }
-             p = (pCliente)p->prox;
+             clie = (pCliente)clie->prox;
         }
     }
     getch();
@@ -124,6 +139,7 @@ void infoCliente(pCliente new) {
     new->banido = false;
     new->nGuitarras = 0;
     new->nGuitDan = 0;
+    new->rBan = 0;
     new->alug = NULL;
     new->prox = NULL;
     

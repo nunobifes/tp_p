@@ -57,6 +57,10 @@ int main(int argc, char** argv) {
             list = novoCli(list);
             opcao = 0;
         }
+        else if (opcao == 9) {
+            list = removeCli(list);
+            opcao = 0;
+        }
         else if (opcao == 10) {
             
             listaEstadoCliente(list);

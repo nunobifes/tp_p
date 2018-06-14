@@ -118,7 +118,7 @@ int ecra_principal() {
         
         printf("\n\n\n\n\nOpcao: ");
         status = scanf("%d", &input);
-    } while (temp = getchar() != EOF && temp != '\n' && status < 1 || status > 12);
+    } while (temp = getchar() != EOF && temp != '\n' && status < 1 || status > 13);
     
     return input;
 }
@@ -171,6 +171,34 @@ int calculaDif(data *dataI, data *dataP) {
     int b = data2dia(dataP);
     
     return a - b;
+}
+
+
+int verNIF(pCliente pointer, pCliente new)
+{
+    pCliente aux = pointer;
+    
+    while (aux != NULL)
+    {
+        if (new->NIF == aux->NIF)
+            return 1;
+        aux = (pCliente)aux->prox;
+    }
+    
+    return 0;
+}
+
+int obtemNIF(pCliente p) {
+    
+    int NIF;
+    if (p == NULL)
+        return 0;
+    else {
+        printf("NIF do Cliente: ");
+        scanf("%9d", &NIF);
+        return NIF;
+    }
+    
 }
 
 void sair(guitar *arr, pCliente list, int tam) {
