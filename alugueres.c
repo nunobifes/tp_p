@@ -88,7 +88,7 @@ void novoAlug(pCliente p, guitar *g, int *tam) {
         p = (pCliente)p->prox;
     
     if (p) {
-        if(contaGuitarrasAlugadas(p) == 5){
+        if(contaGuitarras(p, 0) == 5){
             printf("Nao e possivel alugar mais que cinco guitarras por cliente.");
             return;
         }
@@ -174,13 +174,13 @@ void terminarAluguer(pCliente p) {
                     printf("Atraso: %d dias, vai pagar uma multa de %d euros.", atraso, atraso * 10);
                     i->gui->estado = 0;
                     i->valorAPagar += atraso*10;
-                    i->estado = 1;
+                    i->estado = 2;
                     i->fimPrev.dia = i->fimPrev.mes = i->fimPrev.ano = 0;
                 }
                 else if (atraso >= 20) {
                     printf("Atraso: %d dias, vai pagar uma multa de %d euros e vai ser banido por atraso na entrega.", atraso, atraso * 10);
                     i->gui->estado = 0;
-                    i->estado = 1;
+                    i->estado = 2;
                     i->fimPrev.dia = i->fimPrev.mes = i->fimPrev.ano = 0;
                     i->valorAPagar += atraso*10;
                     p->banido = true;
@@ -192,13 +192,13 @@ void terminarAluguer(pCliente p) {
                 
                 if (dano == 1) {
                     i->gui->estado = 2;
-                    i->estado = 2;
+                    i->estado = 3;
                 }   
             }
             i = i->prox;
         }   
     }
-    if (contaGuitarrasDanificadas(p) == 3 && p->banido != true) {
+    if (contaGuitarras(p, 3) == 3 && p->banido != true) {
         printf("Foi banido por ja ter danificado mais de 3 guitarras.\n");
         p->banido = true;
         p->rBan = 1;

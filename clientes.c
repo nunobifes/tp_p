@@ -61,8 +61,18 @@ void listaEstadoCliente(pCliente p) {
     fflush(stdin);
     system("cls");
     printf(" |------Estado de um Cliente-----|\n\n");
+    
     int flag = 0, NIF;
     
+    pCliente aux = p;
+    
+    while(aux != NULL){
+        if(aux->banido == false)
+            mostraclie(aux);
+        aux = (pCliente)aux->prox;
+    }
+    free(aux);
+    printf("\n");
     NIF = obtemNIF(p);
     
     while (p != NULL) {
@@ -85,7 +95,7 @@ void listaEstadoCliente(pCliente p) {
     else {
         while (p) {
             if (p->NIF == NIF)
-                printf("\tNome: %s\tNIF: %d\tNumero de guitarras alugadas: %d\n", p->nome, p->NIF, p->nGuitarras);
+                printf("\tNome: %s\tNIF: %d\tNalugadas: %d\tNentregues: %d\tAtraso: %d\tNdanificadas: %d\n", p->nome, p->NIF, contaGuitarras(p, 0), contaGuitarras(p, 1), contaGuitarras(p,2), contaGuitarras(p,3));
             p = (pCliente)p->prox;
         }
     }

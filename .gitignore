@@ -2,6 +2,7 @@
 *.exe
 *.txt
 *.dat
+*.pdf
 .vscode/
 build/
 dist/

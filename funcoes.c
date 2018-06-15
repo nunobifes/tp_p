@@ -7,49 +7,19 @@
 #include "utils.h"
 
 
-int contaGuitarrasAlugadas(pCliente p){
+int contaGuitarras(pCliente p, int estado){
     pAluguer aux = NULL;
     aux = p->alug;
     int conta = 0;
     if(aux == NULL)
         return conta;
     while(aux != NULL){
-        if(aux->estado == 0)
+        if(aux->estado == estado)
             conta++;
         aux= aux->prox;
     }
     return conta;
     
-    
-}
-int contaGuitarrasEntregues(pCliente p){
-    
-    pAluguer aux = NULL;
-    aux = p->alug;
-    int conta = 0;
-    if(aux == NULL)
-        return conta;
-    while(aux != NULL){
-        if(aux->estado == 1)
-            conta++;
-        aux= aux->prox;
-    }
-    return conta;
-    
-}
-int contaGuitarrasDanificadas(pCliente p){
-    
-    pAluguer aux = NULL;
-    aux = p->alug;
-    int conta = 0;
-    if(aux == NULL)
-        return conta;
-    while(aux != NULL){
-        if(aux->estado == 2)
-            conta++;
-        aux= aux->prox;
-    }
-    return conta;
     
 }
 
@@ -69,8 +39,7 @@ void mostraGuit(guitar *m) {
 void mostraclie(pCliente p) {
     
     printf("\t\tNIF: %d", p->NIF);
-    printf("\tNome: %s", p->nome);
-    printf("\tGuitarras alugadas: %d", p->nGuitarras);
+    printf("\tNome: %s\n", p->nome);
     
 }
 

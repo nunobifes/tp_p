@@ -50,9 +50,7 @@ void libertaCli(pCliente p);
 pCliente removeCli(pCliente p);
 
 // Misc
-int contaGuitarrasAlugadas(pCliente p);
-int contaGuitarrasEntregues(pCliente p);
-int contaGuitarrasDanificadas(pCliente p);
+int contaGuitarras(pCliente p, int estado);
 void sair(guitar *arr, pCliente list, int tam);
 int ecra_principal();
 int obtemNIF(pCliente p);
