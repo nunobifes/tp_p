@@ -10,6 +10,7 @@ pCliente removeCli(pCliente p){
     
     int flag, NIF;
     pCliente atua, ante = NULL, aux;
+    pAluguer atuaAlug = NULL;
     
     aux = atua = p;
     
@@ -42,6 +43,14 @@ pCliente removeCli(pCliente p){
         p = (pCliente)atua->prox;
     else
         ante->prox = atua->prox;
+    
+    while(atua->alug != NULL){
+        atuaAlug = atua->alug->prox;
+        atua->alug->gui->estado = 0;
+        free(atua->alug);
+        atua->alug = atuaAlug;
+    }
+    
     
     free(atua);
      return p;
@@ -95,7 +104,7 @@ void listaClientes(pCliente p) {
         while (clie != NULL) {
             if(clie->banido == false){
                 
-                printf("\n\tNome: %s\tNIF: %d\tBanido: %d\n", p->nome, p->NIF, p->banido);
+                printf("\n\tNome: %s\tNIF: %d\tBanido: %d\n", clie->nome, clie->NIF, clie->banido);
                 
                 aux = clie->alug;
                 
@@ -103,12 +112,12 @@ void listaClientes(pCliente p) {
                     while (aux != NULL) {
                         GuitarraAluguer(aux->gui);
                         if(aux->estado == 1 || aux->estado == 2)
-                            printf("\t\tData de Inicio: %d/%d/%d\tData de Entrega: %d/%d/%d\n", aux->inicio.dia,
+                            printf("Data de Inicio: %d/%d/%d\tData de Entrega: %d/%d/%d\n", aux->inicio.dia,
                                     aux->inicio.mes, aux->inicio.ano,
                                     aux->fim.dia, aux->fim.mes,
                                     aux->fim.ano);
                         else
-                            printf("\t\tData de Inicio: %d/%d/%d\tData Prevista de Entrega: %d/%d/%d\n", aux->inicio.dia,
+                            printf("Data de Inicio: %d/%d/%d\tData Prevista de Entrega: %d/%d/%d\n", aux->inicio.dia,
                                     aux->inicio.mes, aux->inicio.ano,
                                     aux->fimPrev.dia, aux->fimPrev.mes,
                                     aux->fimPrev.ano);
@@ -138,7 +147,6 @@ void infoCliente(pCliente new) {
     scanf("%9d", &new->NIF);
     new->banido = false;
     new->nGuitarras = 0;
-    new->nGuitDan = 0;
     new->rBan = 0;
     new->alug = NULL;
     new->prox = NULL;
@@ -244,11 +252,12 @@ pCliente leClientes(guitar *g, int *tam)
             if (!new)
                 return NULL;
             
-            returnedValue = fscanf(cInfo, "%d %d %d %[a-z A-Z ]s", &new->NIF, &new->nGuitarras,  &new->nGuitDan, new->nome);
+            returnedValue = fscanf(cInfo, "%d %d %[a-z A-Z ]s", &new->NIF, &new->nGuitarras, new->nome);
             
-            if (returnedValue == 4)
+            if (returnedValue == 3)
             {
                 new->banido = false;
+                new->rBan = 0;
                 new->prox = NULL; 
                 new->alug = NULL;
                 

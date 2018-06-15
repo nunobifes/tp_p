@@ -83,10 +83,15 @@ void novoAlug(pCliente p, guitar *g, int *tam) {
     int NIF = obtemNIF(p);
     
     
+    
     while (p != NULL && NIF != p->NIF)
         p = (pCliente)p->prox;
     
     if (p) {
+        if(contaGuitarrasAlugadas(p) == 5){
+            printf("Nao e possivel alugar mais que cinco guitarras por cliente.");
+            return;
+        }
         atual = (pAluguer)p->alug;
         
         new = (pAluguer)malloc(sizeof(aluguer));
@@ -181,24 +186,22 @@ void terminarAluguer(pCliente p) {
                     p->banido = true;
                     p->rBan = 0;
                 }
-               
+                
                 printf("\n\nGuitarra danificada[1(sim)/0(nao)]: ");
                 scanf(" %d", &dano);
                 
                 if (dano == 1) {
                     i->gui->estado = 2;
                     i->estado = 2;
-                    
-                    p->nGuitDan++;
-                    if (p->nGuitDan > 3 && p->banido != true) {
-                        printf("Foi banido por ja ter danificado mais de 3 guitarras.\n");
-                        p->banido = true;
-                        p->rBan = 1;
-                    }
                 }   
             }
             i = i->prox;
         }   
+    }
+    if (contaGuitarrasDanificadas(p) == 3 && p->banido != true) {
+        printf("Foi banido por ja ter danificado mais de 3 guitarras.\n");
+        p->banido = true;
+        p->rBan = 1;
     }
     getch();
 }

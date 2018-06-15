@@ -28,7 +28,6 @@ struct cliente {
     int NIF;
     char nome[100];
     bool banido;
-    int nGuitDan;
     int nGuitarras;
     int rBan;
     pCliente prox;

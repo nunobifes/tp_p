@@ -6,6 +6,54 @@
 
 #include "utils.h"
 
+
+int contaGuitarrasAlugadas(pCliente p){
+    pAluguer aux = NULL;
+    aux = p->alug;
+    int conta = 0;
+    if(aux == NULL)
+        return conta;
+    while(aux != NULL){
+        if(aux->estado == 0)
+            conta++;
+        aux= aux->prox;
+    }
+    return conta;
+    
+    
+}
+int contaGuitarrasEntregues(pCliente p){
+    
+    pAluguer aux = NULL;
+    aux = p->alug;
+    int conta = 0;
+    if(aux == NULL)
+        return conta;
+    while(aux != NULL){
+        if(aux->estado == 1)
+            conta++;
+        aux= aux->prox;
+    }
+    return conta;
+    
+}
+int contaGuitarrasDanificadas(pCliente p){
+    
+    pAluguer aux = NULL;
+    aux = p->alug;
+    int conta = 0;
+    if(aux == NULL)
+        return conta;
+    while(aux != NULL){
+        if(aux->estado == 2)
+            conta++;
+        aux= aux->prox;
+    }
+    return conta;
+    
+}
+
+
 void mostraGuit(guitar *m) {
     
     printf("\t\tID: %d", m->id);
@@ -23,9 +71,6 @@ void mostraclie(pCliente p) {
     printf("\t\tNIF: %d", p->NIF);
     printf("\tNome: %s", p->nome);
     printf("\tGuitarras alugadas: %d", p->nGuitarras);
-    printf("\tGuitarras danificadas: %d\n", p->nGuitDan);
-    
-    getch();
     
 }
 
@@ -43,7 +88,7 @@ void guardaClientes(pCliente p)
         if (!p->banido)
         {
         
-             fprintf(cInfo, "%d %d %d %s\n", (int)p->NIF, (int)p->nGuitarras, (int)p->nGuitDan, p->nome);
+             fprintf(cInfo, "%d %d %s\n", (int)p->NIF, (int)p->nGuitarras, p->nome);
             
             ite = p->alug;
            

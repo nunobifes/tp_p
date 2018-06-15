@@ -141,6 +141,5 @@ guitar * leTXT(int *tam) {
 }
 
 void GuitarraAluguer(guitar *member) {
-    printf("\n\t\tNome: %s\tValor: %d euros\tPreco dia: %d euros", member->nome, member->valor, member->pdia);
-    getch();
+    printf("\n\t\tID: %d\tNome: %s\t", member->id, member->nome);
 }
