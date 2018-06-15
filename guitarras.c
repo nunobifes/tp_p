@@ -6,6 +6,47 @@
 
 #include "utils.h"
 
+void historicoAlugGui(guitar *arr, pCliente p,int tam){
+    pCliente aux = NULL;
+    pAluguer auxa = NULL;
+    int id;
+    
+    aux = p;
+    system("cls");
+    //int o;
+    printf(" |--------------Listar Guitarras--------------|\n\n");
+    
+    printf("\n\tGuitarras Disponivies: \n\n");
+    if(tam < 0){
+        printf("\t\tNao ha guitarras disponiveis.\n");
+        getch();
+        return;
+    }
+    for(int i = 0; i<tam; i++){
+        printf("\t\tID: %d\tNome: %s\n", arr[i].id, arr[i].nome);
+    }
+    printf("\n\tID da guitarra a ver historico: ");
+    scanf("%d", &id);
+    
+    while(aux != NULL){
+        auxa = aux->alug;
+        if(auxa != NULL){
+            while(auxa != NULL){
+                if(auxa->gui->id == id){
+                    printf("\n\n\t\tNome: %s\tDataInicio: %d/%d/%d\tDataFim: %d/%d/%d\tDias de Atraso: %d\n", aux->nome, auxa->inicio.dia, auxa->inicio.mes, auxa->inicio.ano, auxa->fim.dia, auxa->fim.mes, auxa->fim.ano, calculaDif(&auxa->fim, &auxa->fimPrev));
+                }
+                auxa = auxa->prox;
+                
+            }
+        }
+        aux = aux->prox;
+    }
+    
+    getch();
+    
+}   
+
+
 void listarGuitarra(guitar *arr, int tam) {
     system("cls");
     //int o;
@@ -27,10 +68,13 @@ void listarGuitarra(guitar *arr, int tam) {
     
 }
 
-void listarGuitarraAlugada(guitar *arr, int tam) {
-    system("cls");
+void listarGuitarraAlugada(guitar *arr, pCliente p, int tam) {
+    
+    pCliente aux = NULL;
+    pAluguer auxa = NULL;
     int flag;
-    printf(" |--------------Listar Guitarras Alugadas--------------|\n\n");
+    aux = p;
+    
     for (int i = 0; i < tam; i++) {
         if (arr[i].estado != 1) {
             flag = 1;
@@ -41,19 +85,32 @@ void listarGuitarraAlugada(guitar *arr, int tam) {
         }
     }
     
+    system("cls");
+    printf(" |--------------Listar Guitarras Alugadas--------------|\n\n");
+    
+    printf("\tListagem de Guitarras Alugadas: \n\n");
+    
+    
+    
     if (flag == 1 || tam == 0)
-        printf("\tNao ha guitarras alugadas");
+        printf("\t\tNao ha guitarras alugadas");
     else {
-        for (int i = 0; i < tam; i++) {
-            if (arr[i].estado == 1) {
-                printf("\tID: %d", arr[i].id);
-                printf("\tEstado: %d", arr[i].estado);
-                printf("\tValor: %d", arr[i].valor);
-                printf("\tPreco por dia: %d", arr[i].pdia);
-                printf("\tNome: %s", arr[i].nome);
-                printf("\n");
+        
+        if(aux != NULL){
+            while(aux != NULL){
+                auxa = aux->alug;
+                if(auxa != NULL){
+                    while(auxa != NULL){
+                        
+                        printf("\t\tNome: %s\tID: %d\tPreco dia: %d\tValor: %d\tNome Cliente: %s\tNIF: %d\n", auxa->gui->nome, auxa->gui->id, auxa->gui->pdia, auxa->gui->valor, aux->nome, aux->NIF);
+                        
+                        auxa = auxa->prox;
+                    }
+                }
+                aux = aux->prox;
             }
         }
+        
     }
     
     

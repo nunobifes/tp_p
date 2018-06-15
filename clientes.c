@@ -187,10 +187,10 @@ void listaCliBan(pCliente p) {
             if (p->banido == 1){
                 printf("\tNome: %s\tNIF: %d\n", p->nome, p->NIF);
                 switch(p->rBan){
-                    case 0:
+                    case 1:
                         printf("\t\tRazao do ban: Atraso na entrega da guitarra.\n");
                         break;
-                    case 1:
+                    case 2:
                         printf("\t\tRazao do ban: Danificou mais de 3 guitarras.\n");
                         break;
                     default:

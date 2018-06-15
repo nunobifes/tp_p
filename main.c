@@ -30,7 +30,6 @@ int main(int argc, char** argv) {
         opcao = ecra_principal();
         
         if (opcao == 1) {
-            
             novoAlug(list, gui, &tam);
             opcao = 0;
         }
@@ -39,10 +38,15 @@ int main(int argc, char** argv) {
             opcao = 0;
         }
         else if (opcao == 3) {
+            alugueresAtivos(list);
             opcao = 0;
         }
         else if (opcao == 4) {
             gui = novaGuitarra(gui, &tam, 0);
+            opcao = 0;
+        }
+        else if (opcao == 5) {
+            historicoAlugGui(gui, list, tam);
             opcao = 0;
         }
         else if (opcao == 6) {
@@ -50,7 +54,7 @@ int main(int argc, char** argv) {
             opcao = 0;
         }
         else if (opcao == 7) {
-            listarGuitarraAlugada(gui, tam);
+            listarGuitarraAlugada(gui, list, tam);
             opcao = 0;
         }
         else if (opcao == 8) {
@@ -62,7 +66,6 @@ int main(int argc, char** argv) {
             opcao = 0;
         }
         else if (opcao == 10) {
-            
             listaEstadoCliente(list);
             opcao = 0;
         }

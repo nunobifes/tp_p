@@ -169,22 +169,19 @@ void terminarAluguer(pCliente p) {
                     i->valorAPagar -= (atraso*i->gui->pdia)*(-1);
                     i->gui->estado = 0;
                     i->estado = 1;
-                    i->fimPrev.dia = i->fimPrev.mes = i->fimPrev.ano = 0;
                 }else if (atraso > 0 && atraso <20) {
                     printf("Atraso: %d dias, vai pagar uma multa de %d euros.", atraso, atraso * 10);
                     i->gui->estado = 0;
                     i->valorAPagar += atraso*10;
                     i->estado = 2;
-                    i->fimPrev.dia = i->fimPrev.mes = i->fimPrev.ano = 0;
                 }
                 else if (atraso >= 20) {
                     printf("Atraso: %d dias, vai pagar uma multa de %d euros e vai ser banido por atraso na entrega.", atraso, atraso * 10);
                     i->gui->estado = 0;
                     i->estado = 2;
-                    i->fimPrev.dia = i->fimPrev.mes = i->fimPrev.ano = 0;
                     i->valorAPagar += atraso*10;
                     p->banido = true;
-                    p->rBan = 0;
+                    p->rBan = 1;
                 }
                 
                 printf("\n\nGuitarra danificada[1(sim)/0(nao)]: ");
@@ -201,7 +198,39 @@ void terminarAluguer(pCliente p) {
     if (contaGuitarras(p, 3) == 3 && p->banido != true) {
         printf("Foi banido por ja ter danificado mais de 3 guitarras.\n");
         p->banido = true;
-        p->rBan = 1;
+        p->rBan = 2;
+    }
+    getch();
+}
+
+void alugueresAtivos(pCliente p){
+    
+    pCliente aux = NULL;
+    pAluguer auxa = NULL;
+    
+    aux = p;
+    
+    fflush(stdin);
+    system("cls");
+    printf(" |----Produzir lista----|\n\n");
+    
+    printf("\n\tLista de Alugueres a Decorrer:\n\n");
+    
+    if(aux != NULL){
+        while(aux != NULL){
+            auxa = aux->alug;
+            
+            if(auxa != NULL){
+                while(auxa != NULL){
+                    
+                    printf("\t\tNome: %s\tNome Guitarra: %s\tDataInicio: %d/%d/%d\tDataPrevista: %d/%d/%d\n", aux->nome, auxa->gui->nome, auxa->inicio.dia, auxa->inicio.mes, auxa->inicio.ano, auxa->fimPrev.dia, auxa->fimPrev.mes, auxa->fimPrev.ano);
+                   
+                    auxa = auxa->prox;
+                }
+            }
+            
+            aux = aux->prox;
+        }
     }
     getch();
 }

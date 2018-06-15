@@ -27,14 +27,16 @@
 // Alugueres
 void novoAlug(pCliente p, guitar *g, int *tam);
 void terminarAluguer(pCliente p);
+void alugueresAtivos(pCliente p);
 
 // Guitarras
 void infoGuitarra(guitar *new, int *TAM);
 guitar * novaGuitarra(guitar *arr, int *TAM, int vaiLer);
 void listarGuitarra(guitar *arr, int tam);
 guitar * leTXT(int *tam);
-void listarGuitarraAlugada(guitar *arr, int tam);
+void listarGuitarraAlugada(guitar *arr, pCliente p, int tam);
 void GuitarraAluguer(guitar *member);
+void historicoAlugGui(guitar *arr, pCliente p, int tam);
 
 // Clientes
 pCliente novoCli(pCliente p);
