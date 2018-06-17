@@ -6,7 +6,7 @@
 
 /* 
  * File:   utils.h
- * Author: nunob
+ * Author: Nuno Rocha 21240505s
  *
  * Created on 7 de Junho de 2018, 0:55
  */
@@ -23,6 +23,10 @@
 
 #include "guitarra.h"
 #include "cliente.h"
+#include <conio.h>
+
+
+
 
 // Alugueres
 void novoAlug(pCliente p, guitar *g, int *tam);
@@ -66,6 +70,9 @@ int data2dia(data *d);
 int calculaDif(data *dataI, data *dataP);
 void guardaBanidos(pCliente p);
 void mostraclie(pCliente p);
+int valorGuitarraCara(guitar *g, int *tam);
+int contaGuitarrasBaratas(pCliente p, int valor);
+void clearscr();
 
 
 #endif /* UTILS_H */

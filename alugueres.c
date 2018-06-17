@@ -4,41 +4,84 @@
  * and open the template in the editor.
  */
 
+/* 
+ * File:   alugueres.c
+ * Author: Nuno Rocha 21240505
+ *
+ * Created on 7 de Junho de 2018, 0:41
+ */
 #include "utils.h"
 
-void infoAluguer(pAluguer new, guitar *g, int *tam) {
+void infoAluguer(pAluguer new, guitar *g, int *tam, pCliente p) {
     
     int pos, IDg, flag = false, dias;
     
+    
+    printf("\n\tGuitarras Disponiveis: \n");
+    
+    if(*tam<1){
+        printf("\n\n\t\tNao existem guitarras para alugar.");
+        return;
+    }
+    
+    
+    for (pos = 0; pos < *tam; pos++){
+        if (g[pos].estado == 0){
+            mostraGuit(&g[pos]);
+        }
+    }
+    
     do {
         
-        printf("\n\tGuitarras Disponiveis: \n");
-        for (pos = 0; pos < *tam; pos++){
-            if (g[pos].estado == 0){
-                mostraGuit(&g[pos]);
-            }
-        }
+        
         printf("\n\nAlugar a guitarra com o ID: ");
         scanf("%d", &IDg);
         
+        
+        
         for (pos = 0; pos < *tam; pos++) {
             if (IDg == g[pos].id) {
-                new->gui = &g[pos];
-                flag = true;
+                if(g[pos].valor < valorGuitarraCara(g, tam) && contaGuitarrasBaratas(p, valorGuitarraCara(g, tam)) < 6){
+                    new->gui = &g[pos];
+                    flag = true;
+                }else if(g[pos].valor < valorGuitarraCara(g, tam) && contaGuitarrasBaratas(p, valorGuitarraCara(g, tam)) >= 6){
+                    new->gui = &g[pos];
+                    flag = true;
+                }else if(g[pos].valor > valorGuitarraCara(g, tam) && contaGuitarrasBaratas(p, valorGuitarraCara(g, tam)) >= 6){
+                    new->gui = &g[pos];
+                    flag = true;
+                }
+                
             }
         }
         
         if (!flag)
-            printf("Guitarra nao existe!\n");
+            printf("Nao pode alugar essa guitarra!\n");
         
     } while (!flag);
-    
-    printf("Data de Inicio[DD/MM/AAAA]: ");
-    scanf("%d/%d/%d", &new->inicio.dia, &new->inicio.mes, &new->inicio.ano);
-    
+    flag = false;
+    do{
+        printf("Data de Inicio[DD/MM/AAAA]: ");
+        if(scanf(" %d/%d/%d", &new->inicio.dia, &new->inicio.mes, &new->inicio.ano) == 3){
+            flag = true;
+        }
+        else{
+            printf("Por favor insira uma data coerente.\n");
+            getchar();
+        }
+        
+    }while(!flag);
+    flag = false;
     do {
-        printf("Data prevista de entrega[DD/MM/AAAA]: ");
-        scanf("%d/%d/%d", &new->fimPrev.dia, &new->fimPrev.mes, &new->fimPrev.ano);
+        do{
+            printf("Data prevista de entrega[DD/MM/AAAA]: ");
+            if(scanf("%d/%d/%d", &new->fimPrev.dia, &new->fimPrev.mes, &new->fimPrev.ano) == 3){
+                flag = true;
+            }else{
+                printf("Por favor insira uma data coerente.\n");
+                getchar();
+            }
+        }while(!flag);
         
         if ((dias = calculaDif(&new->fimPrev, &new->inicio)) >= 8)
             printf("\n\n\t\tGuitarra so pode ser alugada ate um maximo de 7 dias.\n\n");
@@ -62,9 +105,9 @@ void novoAlug(pCliente p, guitar *g, int *tam) {
     pAluguer atual = NULL, new = NULL;
     pCliente aux = NULL;
     
-    fflush(stdin);
-    system("cls");
-    printf(" |-----Criar Aluguer----|\n\n");
+    
+    clearscr();
+    printf(" |----------------Criar Aluguer---------------|\n\n");
     
     aux = p;
     
@@ -81,6 +124,10 @@ void novoAlug(pCliente p, guitar *g, int *tam) {
     
     printf("\n");
     int NIF = obtemNIF(p);
+    
+    if(NIF == 0){
+        return;
+    }
     
     
     
@@ -99,25 +146,26 @@ void novoAlug(pCliente p, guitar *g, int *tam) {
         if (!new)
             return;
         
-        infoAluguer(new, g, tam);
+        infoAluguer(new, g, tam, p);
         
         new->prox = p->alug;
         p->alug = new;
         p->nGuitarras++;
     }
+    
 }
 
 void terminarAluguer(pCliente p) {
     
-    pAluguer i = NULL;
+    pAluguer i = NULL, al = NULL;
     pCliente aux = NULL;
-    int dano, NIF, id;
+    int dano, NIF, id, flag = false;
     
     aux = p;
     
-    fflush(stdin);
-    system("cls");
-    printf(" |---Concluir Aluguer---|\n\n");
+    
+    clearscr();
+    printf(" |---------------Concluir Aluguer-------------|\n\n");
     
     printf("Clientes Ativos: \n\n");
     while(aux != NULL){
@@ -127,6 +175,10 @@ void terminarAluguer(pCliente p) {
     
     printf("\n");
     NIF = obtemNIF(p);
+    
+    if(NIF == 0){
+        return;
+    }
     
     while (p != NULL) {
         if (p->NIF == NIF)
@@ -159,8 +211,17 @@ void terminarAluguer(pCliente p) {
         while(i != NULL){
             if(i->gui->id == id && i->fimPrev.ano != 0){
                 
-                printf("\nData de entrega [DD/MM/AAAA]: ");
-                scanf("%d/%d/%d", &i->fim.dia, &i->fim.mes, &i->fim.ano);
+                do{
+                    printf("\nData de entrega [DD/MM/AAAA]: ");
+                    if(scanf("%d/%d/%d", &i->fim.dia, &i->fim.mes, &i->fim.ano) == 3){
+                        flag = true;
+                    }else {
+                        printf("Por favor insira uma data coerente.\n");
+                        getchar();
+                    }
+                }while(!flag);
+                
+                
                 
                 
                 int atraso = calculaDif(&i->fim, &i->fimPrev);
@@ -182,6 +243,13 @@ void terminarAluguer(pCliente p) {
                     i->valorAPagar += atraso*10;
                     p->banido = true;
                     p->rBan = 1;
+                    if(contaGuitarras(p, 0) > 0){
+                        al = p->alug;
+                        while(al != NULL){
+                            al->gui->estado = 0;
+                            al = al->prox;
+                        }
+                    }
                 }
                 
                 printf("\n\nGuitarra danificada[1(sim)/0(nao)]: ");
@@ -190,16 +258,25 @@ void terminarAluguer(pCliente p) {
                 if (dano == 1) {
                     i->gui->estado = 2;
                     i->estado = 3;
+                    i->valorAPagar += i->gui->valor;
+                    if (contaGuitarras(p, 3) == 3 && p->banido != true) {
+                        printf("Foi banido por ja ter danificado mais de 3 guitarras.\n");
+                        p->banido = true;
+                        p->rBan = 2;
+                        if(contaGuitarras(p, 0) > 0){
+                            al = p->alug;
+                            while(al != NULL){
+                                al->gui->estado = 0;
+                                al = al->prox;
+                            }
+                        }
+                    }
                 }   
             }
             i = i->prox;
         }   
     }
-    if (contaGuitarras(p, 3) == 3 && p->banido != true) {
-        printf("Foi banido por ja ter danificado mais de 3 guitarras.\n");
-        p->banido = true;
-        p->rBan = 2;
-    }
+    
     getch();
 }
 
@@ -210,21 +287,21 @@ void alugueresAtivos(pCliente p){
     
     aux = p;
     
-    fflush(stdin);
-    system("cls");
-    printf(" |----Produzir lista----|\n\n");
+    
+    clearscr();
+    printf(" |----------------Produzir lista--------------|\n\n");
     
     printf("\n\tLista de Alugueres a Decorrer:\n\n");
     
     if(aux != NULL){
-        while(aux != NULL){
+        while(aux != NULL && aux->banido == false){
             auxa = aux->alug;
             
             if(auxa != NULL){
-                while(auxa != NULL){
+                while(auxa != NULL && auxa->estado == 0){
                     
                     printf("\t\tNome: %s\tNome Guitarra: %s\tDataInicio: %d/%d/%d\tDataPrevista: %d/%d/%d\n", aux->nome, auxa->gui->nome, auxa->inicio.dia, auxa->inicio.mes, auxa->inicio.ano, auxa->fimPrev.dia, auxa->fimPrev.mes, auxa->fimPrev.ano);
-                   
+                    
                     auxa = auxa->prox;
                 }
             }

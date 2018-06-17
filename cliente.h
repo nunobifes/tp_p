@@ -6,7 +6,7 @@
 
 /* 
  * File:   cliente.h
- * Author: nunob
+ * Author: Nuno Rocha 21240505
  *
  * Created on 7 de Junho de 2018, 0:57
  */

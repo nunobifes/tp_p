@@ -4,6 +4,13 @@
  * and open the template in the editor.
  */
 
+/* 
+ * File:   clientes.c
+ * Author: Nuno Rocha 21240505
+ *
+ * Created on 7 de Junho de 2018, 0:41
+ */
+
 #include "utils.h"
 
 pCliente removeCli(pCliente p){
@@ -14,8 +21,8 @@ pCliente removeCli(pCliente p){
     
     aux = atua = p;
     
-    fflush(stdin);
-    system("cls");
+    
+    clearscr();
     printf(" |--------Remover Cliente--------|\n\n");
     
     printf("Clientes Ativos: \n\n");
@@ -53,14 +60,14 @@ pCliente removeCli(pCliente p){
     
     
     free(atua);
-     return p;
+    return p;
     
 }
 
 void listaEstadoCliente(pCliente p) {
-    fflush(stdin);
-    system("cls");
-    printf(" |------Estado de um Cliente-----|\n\n");
+    
+    clearscr();
+    printf(" |------------Estado de um Cliente------------|\n\n");
     
     int flag = 0, NIF;
     
@@ -105,9 +112,9 @@ void listaEstadoCliente(pCliente p) {
 void listaClientes(pCliente p) {
     pAluguer aux;
     pCliente clie = p;
-    fflush(stdin);
-    system("cls");
-    printf(" |----Listar Clientes Ativos-----|\n\n");
+    
+    clearscr();
+    printf(" |-----------Listar Clientes Ativos-----------|\n\n");
     if (clie == NULL)
         printf("\tNao ha clientes registados");
     else {
@@ -138,21 +145,20 @@ void listaClientes(pCliente p) {
                     }
                 }
             }
-             clie = (pCliente)clie->prox;
+            clie = (pCliente)clie->prox;
         }
     }
     getch();
 }
 
 void infoCliente(pCliente new) {
-    fflush(stdin);
-    system("cls");
     
-    printf(" |--------Adicionar Cliente------|\n\n");
+    clearscr();
+    
+    printf(" |--------------Adicionar Cliente-------------|\n\n");
     
     printf("Nome: ");
-    scanf_s("\n%[^\n]s", new->nome, 50);
-    //gets(new->nome);
+    scanf("\n%[^\n]s", new->nome);
     printf("NIF: ");
     scanf("%9d", &new->NIF);
     new->banido = false;
@@ -164,10 +170,10 @@ void infoCliente(pCliente new) {
 }
 
 void listaCliBan(pCliente p) {
-    fflush(stdin);
-    system("cls");
+    
+    clearscr();
     int flag;
-    printf(" |----Listar Clientes Banidos----|\n\n");
+    printf(" |-----------Listar Clientes Banidos----------|\n\n");
     while (p != NULL) {
         if (p->banido != 1) {
             flag = 1;
@@ -262,7 +268,7 @@ pCliente leClientes(guitar *g, int *tam)
             if (!new)
                 return NULL;
             
-            returnedValue = fscanf(cInfo, "%d %d %[a-z A-Z ]s", &new->NIF, &new->nGuitarras, new->nome);
+            returnedValue = fscanf(cInfo, "%d %d %[a-z A-Z]s", &new->NIF, &new->nGuitarras, new->nome);
             
             if (returnedValue == 3)
             {

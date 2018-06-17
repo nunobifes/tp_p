@@ -4,6 +4,13 @@
  * and open the template in the editor.
  */
 
+/* 
+ * File:   funcoes.c
+ * Author: Nuno Rocha 21240505
+ *
+ * Created on 7 de Junho de 2018, 0:41
+ */
+
 #include "utils.h"
 
 
@@ -16,6 +23,7 @@ int contaGuitarras(pCliente p, int estado){
     while(aux != NULL){
         if(aux->estado == estado)
             conta++;
+                
         aux= aux->prox;
     }
     return conta;
@@ -23,6 +31,36 @@ int contaGuitarras(pCliente p, int estado){
     
 }
 
+int contaGuitarrasBaratas(pCliente p, int valor){
+    
+    pAluguer auxa = NULL;
+    int conta = 0;
+    
+    auxa = p->alug;
+    
+    if(auxa != NULL){
+        while(auxa != NULL){
+            if(auxa->gui->valor < valor && auxa->estado == 1)
+                conta++;
+            auxa = auxa->prox;
+        }
+    }
+    return conta;
+}
+
+int valorGuitarraCara(guitar *g, int *tam){
+    int conta = 0, valor = 0;
+    float media = 0;
+    for(int i = 0; i < *tam; i++){
+        conta += g[i].valor;
+    }
+    media = (conta/ *tam)*1.5;
+    
+    valor = (int)media;
+    
+    return valor;
+    
+}
 
 void mostraGuit(guitar *m) {
     
@@ -37,9 +75,10 @@ void mostraGuit(guitar *m) {
 }
 
 void mostraclie(pCliente p) {
-    
-    printf("\t\tNIF: %d", p->NIF);
-    printf("\tNome: %s\n", p->nome);
+    if(p->banido != true){
+        printf("\t\tNIF: %d", p->NIF);
+        printf("\tNome: %s\n", p->nome);
+    }
     
 }
 
@@ -111,7 +150,7 @@ int ecra_principal() {
     int input, temp, status;
     
     do {
-        system("cls");
+        clearscr();
         printf("\n\t\tGuitarras p'Alugar\n\n");
         printf("\t |---Alugueres---|\n");
         printf("\t\t 1-|-----Criar Aluguer----|\n");
@@ -128,7 +167,7 @@ int ecra_principal() {
         printf("\t\t 10-|------Estado de um Cliente-----|\n");
         printf("\t\t 11-|----Listar Clientes Ativos-----|\n");
         printf("\t\t 12-|----Listar Clientes Banidos----|\n");
-        printf("\t 13-|------Sair-----|\n");
+        printf("\t 0-|------Sair-----|\n");
         
         printf("\n\n\n\n\nOpcao: ");
         status = scanf("%d", &input);
@@ -206,7 +245,7 @@ int obtemNIF(pCliente p) {
     
     int NIF;
     if (p == NULL)
-        return 0;
+        return -1;
     else {
         printf("NIF do Cliente: ");
         scanf("%9d", &NIF);
@@ -224,5 +263,14 @@ void sair(guitar *arr, pCliente list, int tam) {
     exit(0);
 }
 
+void clearscr(){
+        
+        #ifdef _WIN32
+            system("cls");
+        #else
+            printf("\e[1;1H\e[2J")
+        #endif
+
+}
 
 

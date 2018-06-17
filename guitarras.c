@@ -4,6 +4,12 @@
  * and open the template in the editor.
  */
 
+/* 
+ * File:   guitarras.c
+ * Author: Nuno Rocha 21240505
+ *
+ * Created on 7 de Junho de 2018, 0:41
+ */
 #include "utils.h"
 
 void historicoAlugGui(guitar *arr, pCliente p,int tam){
@@ -12,12 +18,11 @@ void historicoAlugGui(guitar *arr, pCliente p,int tam){
     int id;
     
     aux = p;
-    system("cls");
-    //int o;
-    printf(" |--------------Listar Guitarras--------------|\n\n");
+    clearscr();
+    printf(" |---Historico de Alugueres de uma Guitarra---|\n\n");
     
     printf("\n\tGuitarras Disponivies: \n\n");
-    if(tam < 0){
+    if(tam < 1){
         printf("\t\tNao ha guitarras disponiveis.\n");
         getch();
         return;
@@ -30,9 +35,9 @@ void historicoAlugGui(guitar *arr, pCliente p,int tam){
     
     while(aux != NULL){
         auxa = aux->alug;
-        if(auxa != NULL){
+        if(aux->banido == false && auxa != NULL){
             while(auxa != NULL){
-                if(auxa->gui->id == id){
+                if(auxa->gui->id == id && auxa->estado != 0){
                     printf("\n\n\t\tNome: %s\tDataInicio: %d/%d/%d\tDataFim: %d/%d/%d\tDias de Atraso: %d\n", aux->nome, auxa->inicio.dia, auxa->inicio.mes, auxa->inicio.ano, auxa->fim.dia, auxa->fim.mes, auxa->fim.ano, calculaDif(&auxa->fim, &auxa->fimPrev));
                 }
                 auxa = auxa->prox;
@@ -48,8 +53,7 @@ void historicoAlugGui(guitar *arr, pCliente p,int tam){
 
 
 void listarGuitarra(guitar *arr, int tam) {
-    system("cls");
-    //int o;
+    clearscr();
     printf(" |--------------Listar Guitarras--------------|\n\n");
     if (tam == 0)
         printf("\tNao ha guitarras registadas");
@@ -85,8 +89,8 @@ void listarGuitarraAlugada(guitar *arr, pCliente p, int tam) {
         }
     }
     
-    system("cls");
-    printf(" |--------------Listar Guitarras Alugadas--------------|\n\n");
+    clearscr();
+    printf(" |----------Listar Guitarras Alugadas---------|\n\n");
     
     printf("\tListagem de Guitarras Alugadas: \n\n");
     
@@ -99,10 +103,10 @@ void listarGuitarraAlugada(guitar *arr, pCliente p, int tam) {
         if(aux != NULL){
             while(aux != NULL){
                 auxa = aux->alug;
-                if(auxa != NULL){
+                if(aux->banido == false && auxa != NULL){
                     while(auxa != NULL){
-                        
-                        printf("\t\tNome: %s\tID: %d\tPreco dia: %d\tValor: %d\tNome Cliente: %s\tNIF: %d\n", auxa->gui->nome, auxa->gui->id, auxa->gui->pdia, auxa->gui->valor, aux->nome, aux->NIF);
+                        if(auxa ->estado == 0)
+                            printf("\t\tNome: %s\tID: %d\tPreco dia: %d\tValor: %d\tNome Cliente: %s\tNIF: %d\n", auxa->gui->nome, auxa->gui->id, auxa->gui->pdia, auxa->gui->valor, aux->nome, aux->NIF);
                         
                         auxa = auxa->prox;
                     }
@@ -119,9 +123,9 @@ void listarGuitarraAlugada(guitar *arr, pCliente p, int tam) {
 }
 
 void infoGuitarra(guitar *new, int *tam) {
-    //clrscr();
-    fflush(stdin);
-    system("cls");
+    
+    clearscr();
+    int flag = false;
     
     printf(" |--------------Adicionar Guitarra------------|\n\n");
     if (*tam > 1)
@@ -132,11 +136,23 @@ void infoGuitarra(guitar *new, int *tam) {
     fflush(stdout);
     printf("Nome: ");
     scanf(" %49[^\n]", &new[(*tam) - 1].nome);
-    printf("Valor: ");
-    scanf("%d", &new[(*tam) - 1].valor);
-    printf("Preco: ");
-    scanf("%d", &new[(*tam) - 1].pdia);
-}
+    do{
+        printf("Valor: ");
+        if(scanf("%d", &new[(*tam) - 1].valor) == 1){
+            flag = true;
+        }
+        else
+            getchar();
+    }while(!flag);
+    flag = false;
+    do{
+        printf("Preco: ");
+        if(scanf("%d", &new[(*tam) - 1].pdia) == 1){
+            flag = true;
+        }else
+            getchar();
+    }while(!flag);
+ }
 
 guitar * novaGuitarra(guitar *arr, int *TAM, int vaiLer) {
     guitar *new = arr;

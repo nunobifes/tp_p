@@ -6,7 +6,7 @@
 
 /* 
  * File:   main.c
- * Author: nunob
+ * Author: Nuno Rocha 21240505
  *
  * Created on 7 de Junho de 2018, 0:41
  */
@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
             listaCliBan(list);
             opcao = 0;
         }
-        else if (opcao == 13) {
+        else if (opcao == 0) {
             sair(gui, list, tam);
         }
         else {
